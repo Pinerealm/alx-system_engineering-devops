@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# Displays the content(s) of the current directory in list format.
+# Only the part of the name after '-' is displayed.
+
+find . | cut -d '-' -f 2
