@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# Stops a '4-to_infinity_and_beyond' process running in a bash shell.
+
+pid=$(pgrep -a bash | grep 4-to_infinity_and_beyond | cut -d ' ' -f 1)
+kill "$pid"
