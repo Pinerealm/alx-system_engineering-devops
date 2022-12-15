@@ -15,4 +15,4 @@ USER=$3
 # The path to the SSH key to use for authentication
 KEY=$4
 
-scp -i "$KEY" "$FILE" "$USER"@"$SERVER":~/
+scp -i "$KEY" -o StrictHostKeyChecking=no "$FILE" "$USER"@"$SERVER":~/
