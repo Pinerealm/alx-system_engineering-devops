@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# Transfer a file from a client to a server using scp 
+#+ to a user's home directory
+# This script accepts 4 arguments:
+
+# The path to the file to be transferred
+FILE=$1
+
+# The IP of the server to transfer the file to
+SERVER=$2
+
+# The username scp connects with on the server
+USER=$3
+
+# The path to the SSH key to use for authentication
+KEY=$4
+
+scp -i "$KEY" "$FILE" "$USER"@"$SERVER":~/
