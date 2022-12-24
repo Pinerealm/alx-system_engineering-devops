@@ -6,8 +6,8 @@ apt-get install nginx -y
 # Allow nginx through the firewall (UFW) on port 80
 ufw allow 'Nginx HTTP'
 
-# Start nginx
-service nginx start
-
 # Add an index.html file to the root directory
 echo "Hello World" > /var/www/html/index.html
+
+# Start nginx
+service nginx start
