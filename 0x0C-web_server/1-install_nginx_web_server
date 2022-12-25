@@ -4,10 +4,10 @@ sudo apt-get update
 sudo apt-get install nginx -y
 
 # Change ownership of the /var/www/ directory
-sudo chown -R $USER:$USER /var/www/
+sudo chown -R "$USER":"$USER" /var/www/
 
 # Add an index.html file to the root directory
-echo "Hello World" > /var/www/html/index.html
+echo "Hello World!" > /var/www/html/index.html
 
 # Start nginx
 sudo service nginx start
