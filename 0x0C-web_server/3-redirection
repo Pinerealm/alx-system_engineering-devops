@@ -18,3 +18,6 @@ CONTEXT="\tlocation /redirect_me {\n\t\treturn 301 https://www.youtube.com/watch
 
 # Add the context to the default nginx config file
 sed -i "/pass PHP scripts/i\ $CONTEXT" /etc/nginx/sites-available/default
+
+# Reload nginx
+sudo nginx -s reload
