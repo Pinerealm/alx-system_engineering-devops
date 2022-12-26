@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 # Configure nginx server so that /redirect_me is redirected to another page
-# # Install nginx on a server
-# sudo apt-get update
-# sudo apt-get install nginx -y
+# Install nginx on a server
+sudo apt-get update
+sudo apt-get install nginx -y
 
-# # Change ownership of the /var/www/ directory
-# sudo chown -R "$USER":"$USER" /var/www/
+# Change ownership of the /var/www/ directory
+sudo chown -R "$USER":"$USER" /var/www/
 
-# # Add an index.html file to the root directory
-# echo "Hello World!" > /var/www/html/index.html
+# Add an index.html file to the root directory
+echo "Hello World!" > /var/www/html/index.html
 
 # Change ownership of the /var/www/ directory
 sudo chown -R "$USER":"$USER" /etc/nginx
