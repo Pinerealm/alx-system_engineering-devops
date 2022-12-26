@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# Configure nginx server so that /redirect_me is redirected to another page
+# # Install nginx on a server
+# sudo apt-get update
+# sudo apt-get install nginx -y
+
+# # Change ownership of the /var/www/ directory
+# sudo chown -R "$USER":"$USER" /var/www/
+
+# # Add an index.html file to the root directory
+# echo "Hello World!" > /var/www/html/index.html
+
+# Change ownership of the /var/www/ directory
+sudo chown -R "$USER":"$USER" /etc/nginx
+
+# Store the context to add to the nginx config file
+CONTEXT="\tlocation /redirect_me {\n\t\treturn 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;\n\t}\n"
+
+# Add the context to the default nginx config file
+sed -i "/pass PHP scripts/i\ $CONTEXT" /etc/nginx/sites-available/default
