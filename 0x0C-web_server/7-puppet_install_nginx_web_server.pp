@@ -1,8 +1,5 @@
 # Install and configure an nginx web server.
 
-# # Get the user's name from the facts hash
-# $my_user = $id
-
 # 1. Update the apt package index
 exec { 'apt-get update':
   command => 'apt-get update',
@@ -18,24 +15,24 @@ package { 'nginx':
 # 3. Change ownership of some nginx directories
 file { '/var/www':
   ensure  => 'directory',
-  owner   => $id,
-  group   => $id,
+  owner   => $facts['identity']['user'],
+  group   => $facts['identity']['user'],
   recurse => true,
   require => Package['nginx'],
 }
 
 file { '/etc/nginx':
   ensure  => 'directory',
-  owner   => $id,
-  group   => $id,
+  owner   => $facts['identity']['user'],
+  group   => $facts['identity']['user'],
   recurse => true,
   require => Package['nginx'],
 }
 
 file { '/usr/share/nginx':
   ensure  => 'directory',
-  owner   => $id,
-  group   => $id,
+  owner   => $facts['identity']['user'],
+  group   => $facts['identity']['user'],
   recurse => true,
   require => Package['nginx'],
 }
@@ -54,7 +51,6 @@ file { 'custom_404.html':
   content => 'Ceci n\'est pas une page',
   require => File['/usr/share/nginx'],
 }
-# $facts['identity']['user']
 
 # 5. Modify the default nginx configuration file
 # $context = 
