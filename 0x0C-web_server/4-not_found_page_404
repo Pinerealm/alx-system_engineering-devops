@@ -19,7 +19,7 @@ https://www.youtube.com/watch?v=QH2-TGUlwu4;\n\t}\n\n\terror_page 404 \
 /usr/share/nginx/html;\n\t\tinternal;\n\t}\n"
 
 # Add the context to the default nginx config file
-sed -i "/pass PHP scripts/ i\ $CONTEXT" /etc/nginx/sites-enabled/default
+sed -i "/pass PHP scripts/ i\ $CONTEXT" /etc/nginx/sites-available/default
 
 # Start nginx
 sudo service nginx start
