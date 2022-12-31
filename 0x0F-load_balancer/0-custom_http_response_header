@@ -2,18 +2,18 @@
 # Configure nginx server add a custom header with the server name as value
 
 # Install nginx on a server
-# sudo apt-get update
-# sudo apt-get install nginx -y
+sudo apt-get update
+sudo apt-get install nginx -y
 
-# # Change ownership of the various directories nginx uses
-# sudo chown -R "$USER":"$USER" /var/www/ /usr/share/nginx/html/
+# Change ownership of the various directories nginx uses
+sudo chown -R "$USER":"$USER" /var/www/ /usr/share/nginx/html/
 
-# # Add a custom home and 404 page
-# echo "Hello World!" > /var/www/html/index.html
-# echo "Ceci n'est pas une page" > /usr/share/nginx/html/custom_404.html
+# Add a custom home and 404 page
+echo "Hello World!" > /var/www/html/index.html
+echo "Ceci n'est pas une page" > /usr/share/nginx/html/custom_404.html
 
 # Store the context as a variable
-# shellcheck disable=SC21548
+# shellcheck disable=SC2154
 # CONTEXT="\tadd_header X-Served-By $HOSTNAME;\n"
 CONTEXT="\tlocation /redirect_me {\n\t\treturn 301 \
 https://www.youtube.com/watch?v=QH2-TGUlwu4;\n\t}\n\n\terror_page 404 \
