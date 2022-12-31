@@ -10,14 +10,23 @@ sudo chown -R "$USER":"$USER" /var/www/
 # Add an index.html file to the root directory
 echo "Hello World!" > /var/www/html/index.html
 
-# Change ownership of the /var/www/ directory
-sudo chown -R "$USER":"$USER" /etc/nginx
+# Store the context as a variable
+CONTEXT="\tlocation /redirect_me {\n\t\treturn 301 \
+https://www.youtube.com/watch?v=QH2-TGUlwu4;\n\t}\n"
 
-# Store the context to add to the nginx config file
-CONTEXT="\tlocation /redirect_me {\n\t\treturn 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;\n\t}\n"
+# Check if the context is already in the config file
+if grep -q "location /redirect_me {" /etc/nginx/sites-enabled/default; then
+    echo "Context already in config file."
+else
+    # Add the context to the default nginx config file
+    sudo sed -i "/pass PHP script/i\ $CONTEXT" /etc/nginx/sites-enabled/default
+fi
 
-# Add the context to the default nginx config file
-sed -i "/pass PHP scripts/i\ $CONTEXT" /etc/nginx/sites-available/default
-
-# Start nginx
-sudo service nginx start
+# Check if nginx is running
+if sudo service nginx status | grep -q "active (running)"; then
+    # Reload nginx
+    sudo nginx -s reload
+else
+    # Start nginx
+    sudo service nginx start
+fi
