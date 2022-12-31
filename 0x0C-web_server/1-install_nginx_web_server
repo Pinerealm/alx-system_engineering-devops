@@ -9,5 +9,11 @@ sudo chown -R "$USER":"$USER" /var/www/
 # Add an index.html file to the root directory
 echo "Hello World!" > /var/www/html/index.html
 
-# Start nginx
-sudo service nginx start
+# Check if nginx is running
+if sudo service nginx status | grep -q "active (running)"; then
+    # Reload nginx
+    sudo nginx -s reload
+else
+    # Start nginx
+    sudo service nginx start
+fi
