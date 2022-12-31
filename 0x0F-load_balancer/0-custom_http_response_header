@@ -13,20 +13,14 @@ echo "Hello World!" > /var/www/html/index.html
 echo "Ceci n'est pas une page" > /usr/share/nginx/html/custom_404.html
 
 # Store the context as a variable
-# shellcheck disable=SC2154
-# CONTEXT="\tadd_header X-Served-By $HOSTNAME;\n"
-CONTEXT="\tlocation /redirect_me {\n\t\treturn 301 \
-https://www.youtube.com/watch?v=QH2-TGUlwu4;\n\t}\n\n\terror_page 404 \
-/custom_404.html;\n\tlocation = /custom_404.html {\n\t\troot \
-/usr/share/nginx/html;\n\t\tinternal;\n\t}\n\n\tadd_header X-Served-By \
-$HOSTNAME;\n"
+CONTEXT="\tadd_header X-Served-By \$hostname always;"
 
 # Check if the context is already in the config file
-if grep -q "location /redirect_me {" /etc/nginx/sites-enabled/default; then
-    echo "Context already in config file."
+if grep -q "add_header X-Served-By" /etc/nginx/nginx.conf; then
+    echo "Context already in nginx config."
 else
     # Add the context to the default nginx config file
-    sudo sed -i "/pass PHP script/i\ $CONTEXT" /etc/nginx/sites-enabled/default
+    sudo sed -i "/sendfile/i\ $CONTEXT" /etc/nginx/nginx.conf
 fi
 
 # Check if nginx is running
