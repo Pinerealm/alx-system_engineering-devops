@@ -5,14 +5,14 @@
 sudo apt-get update
 sudo apt-get install nginx -y
 
-# Change ownership of the various directories nginx uses
+# Change ownership of the html directories nginx uses
 sudo chown -R "$USER":"$USER" /var/www/ /usr/share/nginx/html/
 
 # Add a custom home and 404 page
 echo "Hello World!" > /var/www/html/index.html
 echo "Ceci n'est pas une page" > /usr/share/nginx/html/custom_404.html
 
-# Store the redirection and error_page contexts as a variable
+# Store the error_page context as a variable
 CONTEXT="\terror_page 404 /custom_404.html;\n\tlocation = \
 /custom_404.html {\n\t\troot /usr/share/nginx/html;\n\t\tinternal;\n\t}\n"
 
