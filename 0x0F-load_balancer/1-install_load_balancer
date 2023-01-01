@@ -6,8 +6,10 @@ sudo apt-get update
 sudo add-apt-repository ppa:vbernat/haproxy-2.6 -y
 sudo apt-get install haproxy=2.6.\* -y
 
-# Copy the default config file
-sudo cp -a /etc/haproxy/haproxy.cfg{,.orig}
+# Copy the default config file if there's no .orig backup file
+if [ ! -f /etc/haproxy/haproxy.cfg.orig ]; then
+    sudo cp -a /etc/haproxy/haproxy.cfg{,.orig}
+fi
 
 # Store ACLs in a variable
 CONTEXT=\
@@ -18,8 +20,8 @@ frontend nginx_frontend
 
 backend nginx_backend
     balance roundrobin
-    server nginx1 35.174.176.26:80 check
-    server nginx2 100.25.136.104:80 check"
+    server web-01 35.174.176.26:80 check
+    server web-02 100.25.136.104:80 check"
 
 # Check if the context is already in the config file
 if grep -q "nginx_frontend" /etc/haproxy/haproxy.cfg; then
