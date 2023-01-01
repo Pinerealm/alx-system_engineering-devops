@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+# Install and configure HAProxy on a server
+
+# Install HAProxy version 2.6
+sudo apt-get update
+sudo add-apt-repository ppa:vbernat/haproxy-2.6 -y
+sudo apt-get install haproxy=2.6.\* -y
+
+# Copy the default config file
+sudo cp -a /etc/haproxy/haproxy.cfg{,.orig}
+
+# Store ACLs in a variable
+CONTEXT=\
+"
+frontend nginx_frontend
+    bind *:80
+    default_backend nginx_backend
+
+backend nginx_backend
+    balance roundrobin
+    server nginx1 35.174.176.26:80 check
+    server nginx2 100.25.136.104:80 check"
+
+# Check if the context is already in the config file
+if grep -q "nginx_frontend" /etc/haproxy/haproxy.cfg; then
+    echo "Context already in HAProxy config."
+else
+    # Add the context to the default HAProxy config file
+    echo "$CONTEXT" | sudo tee -a /etc/haproxy/haproxy.cfg
+fi
+
+# check if HAProxy is running
+if sudo service haproxy status | grep -q "active (running)"; then
+    # Reload HAProxy
+    sudo service haproxy reload
+else
+    # Start HAProxy
+    sudo service haproxy start
+fi
