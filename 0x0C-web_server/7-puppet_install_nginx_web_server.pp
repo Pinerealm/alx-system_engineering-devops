@@ -33,7 +33,7 @@ file { '/usr/share/nginx/html':
 file { 'index.html':
   ensure  => 'file',
   path    => '/var/www/html/index.html',
-  content => 'Hello, world!\n',
+  content => 'Hello world!\n',
   require => File['/var/www'],
 }
 
