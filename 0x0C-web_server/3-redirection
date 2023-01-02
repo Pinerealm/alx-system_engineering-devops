@@ -20,7 +20,7 @@ if grep -q "location /redirect_me {" $FILE; then
     echo "Context already in config file."
 else
     # Add the context to the default nginx config file
-    sudo sed -i "/pass PHP script/i\ $CONTEXT" $FILE
+    sudo sed -i --follow-symlinks "/pass PHP script/i\ $CONTEXT" $FILE
 fi
 
 # Check if nginx is running

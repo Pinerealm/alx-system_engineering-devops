@@ -15,13 +15,14 @@ echo "Ceci n'est pas une page" > /usr/share/nginx/html/custom_404.html
 # Store the error_page context as a variable
 CONTEXT="\terror_page 404 /custom_404.html;\n\tlocation = \
 /custom_404.html {\n\t\troot /usr/share/nginx/html;\n\t\tinternal;\n\t}\n"
+FILE="/etc/nginx/sites-enabled/default"
 
 # Check if the context is already in the config file
-if grep -q "error_page 404 /custom_404" /etc/nginx/sites-enabled/default; then
+if grep -q "error_page 404 /custom_404" $FILE; then
     echo "Context already in config file."
 else
     # Add the context to the default nginx config file
-    sudo sed -i "/pass PHP script/i\ $CONTEXT" /etc/nginx/sites-enabled/default
+    sudo sed -i --follow-symlinks "/pass PHP script/i\ $CONTEXT" $FILE
 fi
 
 # Check if nginx is running
