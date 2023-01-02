@@ -58,9 +58,9 @@ file { 'custom_404.html':
 # }
 
 file { 'nginx_config':
-  ensure  => 'file',
-  path    => '/etc/nginx/sites-enabled/default',
-  content =>
+  ensure       => 'file',
+  path         => '/etc/nginx/sites-enabled/default',
+  content      =>
   "server {
 	listen 80 default_server;
 	listen [::]:80 default_server;
@@ -89,13 +89,19 @@ file { 'nginx_config':
 	}
 
 }",
-  backup  => false,
-  require => Package['nginx'],
+  backup       => false,
+  require      => Package['nginx'],
 }
 
 # 6. Start nginx
 service { 'nginx':
   ensure  => 'running',
-  restart => 'nginx -s reload',
-  require => [Package['nginx'], File['nginx_config']],
+  require => Package['nginx'],
+}
+
+# 7. Reload nginx
+exec { 'reload_nginx':
+  command => 'nginx -s reload',
+  path    => '/usr/bin:/usr/sbin',
+  require => [Service['nginx'], File['nginx_config']],
 }
