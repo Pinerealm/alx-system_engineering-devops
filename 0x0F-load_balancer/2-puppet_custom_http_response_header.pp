@@ -45,7 +45,6 @@ file { 'custom_404.html':
 }
 
 # 5. Modify the default nginx configuration file
-
 $context = "\tadd_header X-Served-By \$hostname always;"
 $file = '/etc/nginx/nginx.conf'
 
