@@ -33,14 +33,14 @@ file { '/usr/share/nginx/html':
 file { 'index.html':
   ensure  => 'file',
   path    => '/var/www/html/index.html',
-  content => 'Hello World!\n',
+  content => "Hello World!\n",
   require => File['/var/www'],
 }
 
 file { 'custom_404.html':
   ensure  => 'file',
   path    => '/usr/share/nginx/html/custom_404.html',
-  content => 'Ceci n\'est pas une page\n',
+  content => "Ceci n\'est pas une page\n",
   require => File['/usr/share/nginx/html'],
 }
 
