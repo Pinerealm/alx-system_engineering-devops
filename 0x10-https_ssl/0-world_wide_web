@@ -44,7 +44,7 @@ see_subdomain_info() {
         RECORD_TYPE=$(awk 'NR==2 {print $4}' <<< "$DOMAIN_INFO")
 
         # Print subdomain, IP address, and record type
-        echo "The subdomain $1 is a $RECORD_TYPE record and points to $IP"
+        echo "The subdomain $sub is a $RECORD_TYPE record and points to $IP"
         exit 0
     fi
 }
