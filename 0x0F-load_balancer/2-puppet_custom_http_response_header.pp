@@ -2,7 +2,7 @@
 
 # Update the apt package index
 exec { 'apt-get update':
-  command => 'apt-get update',
+  command => ' sudo apt-get update',
   path    => '/usr/bin',
 }
 
