@@ -1,9 +1,10 @@
 # Install and configure an nginx web server.
+$exec_path = '/usr/bin:/bin:/usr/sbin:/sbin'
 
 # Update the apt package index
 exec { 'apt-get update':
-  command => ' sudo apt-get update',
-  path    => '/usr/bin',
+  command => 'sudo apt-get update',
+  path    => $exec_path,
 }
 
 # Install nginx
@@ -18,7 +19,7 @@ $file = '/etc/nginx/nginx.conf'
 
 exec { 'modify_nginx_config':
   command => "sudo sed -i '/sendfile/i\\ ${context}' ${file}",
-  path    => '/usr/bin:/bin:/usr/sbin:/sbin',
+  path    => $exec_path,
   unless  => "grep -q 'add_header X-Served-By' ${file}",
   require => Package['nginx'],
 }
@@ -26,6 +27,6 @@ exec { 'modify_nginx_config':
 # Restart nginx
 exec { 'restart_nginx':
   command => 'sudo service nginx restart',
-  path    => '/usr/bin:/usr/sbin:/bin:/sbin',
+  path    => $exec_path,
   require => [Exec['modify_nginx_config'], Package['nginx']],
 }
