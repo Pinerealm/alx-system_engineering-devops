@@ -50,20 +50,14 @@ $file = '/etc/nginx/nginx.conf'
 
 exec { 'modify_nginx_config':
   command => "sudo sed -i '/sendfile/i\\ ${context}' ${file}",
-  path    => '/usr/bin:/bin',
+  path    => '/usr/bin:/bin:/usr/sbin:/sbin',
   unless  => "grep -q 'add_header X-Served-By' ${file}",
   require => Package['nginx'],
 }
 
-# 6. Start nginx
-service { 'nginx':
-  ensure  => 'running',
-  require => Package['nginx'],
-}
-
-# 7. Reload nginx
-exec { 'reload_nginx':
-  command => 'nginx -s reload',
-  path    => '/usr/bin:/usr/sbin',
-  require => [Service['nginx'], Exec['modify_nginx_config']],
+# 7. Restart nginx
+exec { 'restart_nginx':
+  command => 'sudo service nginx restart',
+  path    => '/usr/bin:/usr/sbin:/bin:/sbin',
+  require => Exec['modify_nginx_config'],
 }
