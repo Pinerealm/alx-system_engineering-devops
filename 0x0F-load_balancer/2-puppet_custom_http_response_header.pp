@@ -1,50 +1,18 @@
 # Install and configure an nginx web server.
 
-# 1. Update the apt package index
+# Update the apt package index
 exec { 'apt-get update':
   command => 'apt-get update',
   path    => '/usr/bin',
 }
 
-# 2. Install nginx
+# Install nginx
 package { 'nginx':
   ensure  => 'installed',
   require => Exec['apt-get update'],
 }
 
-# 3. Change ownership of some nginx directories
-file { '/var/www':
-  ensure  => 'directory',
-  owner   => $id,
-  group   => $gid,
-  recurse => true,
-  require => Package['nginx'],
-}
-
-file { '/usr/share/nginx/html':
-  ensure  => 'directory',
-  owner   => $id,
-  group   => $gid,
-  recurse => true,
-  require => Package['nginx'],
-}
-
-# 4. Create custom home and 404 pages
-file { 'index.html':
-  ensure  => 'file',
-  path    => '/var/www/html/index.html',
-  content => "Hello World!\n",
-  require => File['/var/www'],
-}
-
-file { 'custom_404.html':
-  ensure  => 'file',
-  path    => '/usr/share/nginx/html/custom_404.html',
-  content => "Ceci n\'est pas une page\n",
-  require => File['/usr/share/nginx/html'],
-}
-
-# 5. Modify the default nginx configuration file
+# Modify the default nginx configuration file
 $context = "\tadd_header X-Served-By \$hostname always;"
 $file = '/etc/nginx/nginx.conf'
 
@@ -55,9 +23,9 @@ exec { 'modify_nginx_config':
   require => Package['nginx'],
 }
 
-# 7. Restart nginx
+# Restart nginx
 exec { 'restart_nginx':
   command => 'sudo service nginx restart',
   path    => '/usr/bin:/usr/sbin:/bin:/sbin',
-  require => Exec['modify_nginx_config'],
+  require => [Exec['modify_nginx_config'], Package['nginx']],
 }
