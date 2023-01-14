@@ -16,4 +16,4 @@ if pgrep apache2 > /dev/null; then
 fi
 
 # Start nginx as the nginx user
-sudo -u nginx /usr/sbin/nginx
+sudo -iu nginx '/usr/sbin/nginx'
