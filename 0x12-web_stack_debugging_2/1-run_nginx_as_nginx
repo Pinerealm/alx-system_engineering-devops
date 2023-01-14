@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# Run nginx as the nginx user
+
+# Replace the user directive in the nginx.conf file to the nginx user
+sed -i '/user www-data;/c\user nginx;' /etc/nginx/nginx.conf
+
+# Change the port nginx listens on to 8080
+sed -i --follow-symlinks 's/80/8080/' /etc/nginx/sites-enabled/default
+
+# Change permissions on the nginx.conf file to the nginx user
+chmod 644 /etc/nginx/nginx.conf
+
+# Kill any Apache processes that are running
+if pgrep apache2 > /dev/null; then
+    pkill apache2
+fi
+
+# Start nginx as the nginx user
+sudo -u nginx /usr/sbin/nginx
