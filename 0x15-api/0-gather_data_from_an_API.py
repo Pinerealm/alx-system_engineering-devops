@@ -7,9 +7,8 @@ import sys
 
 
 def get_data():
-    """Get data from the REST API 'jsonplaceholder.typicode.com/'
-    about a given employee ID using the requests library.
-    """
+    """Get and display the data"""
+
     url = 'https://jsonplaceholder.typicode.com/'
     user_id = sys.argv[1]
     user = requests.get(url + 'users/' + user_id).json()
