@@ -1,4 +1,0 @@
-#!/usr/bin/env bash
-# Stops a '4-to_infinity_and_beyond' process using 'pkill'.
-
-pkill -f -TERM 4-to_infinity_and_beyond
