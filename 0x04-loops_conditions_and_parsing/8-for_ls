@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# Display the content(s) of the current directory in list format.
+# Only the part of the name after '-' is displayed.
+
+dir_files=$(ls .)
+for file in $dir_files ; do
+	echo "$file" | cut -d '-' -f 2
+done
