@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# Display the contents of the file /etc/passwd
+
+file="/etc/passwd"
+while read -r ; do
+    echo -e "$REPLY" | cut -d ":" -f 1,3,6
+done < "$file"
