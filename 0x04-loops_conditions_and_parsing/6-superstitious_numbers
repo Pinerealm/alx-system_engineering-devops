@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+# Display the numbers 1 to 20. Using the case statement:
+# Add "bad luck from China" after the 4th number, "bad luck from Japan"
+# after the 9th number, and "bad luck from Italy" after the 17th number.
+
+i=1
+while [ $i -le 20 ] ; do
+    echo $i
+    case $i in
+	4)
+	    echo "bad luck from China"
+	    ;;
+	9)
+	    echo "bad luck from Japan"
+	    ;;
+	17)
+	    echo "bad luck from Italy"
+	    ;;
+    esac
+    ((i++))
+done
