@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+# Manages the process of the manage_my_process script.
+
+# Use a regex to store correct instructions
+regex='^(start|stop|restart)$'
+
+# Check if the user has provided a valid option.
+if [ $# -ne 1 ] || ! [[ $1 =~ $regex ]] ; then
+	echo "Usage: manage_my_process {start|stop|restart}"
+	exit 1
+fi
+
+
+case "$1" in
+start)
+	# Start the process
+	./manage_my_process &
+	echo $! > /var/run/my_process.pid
+	echo "manage_my_process started"
+	;;
+stop)
+	# Stop the process
+	kill "$(cat /var/run/my_process.pid)"
+	rm /var/run/my_process.pid
+	echo "manage_my_process stopped"
+	;;
+restart)
+	# Restart the process
+	kill "$(cat /var/run/my_process.pid)"
+	rm /var/run/my_process.pid
+	./manage_my_process &
+	echo $! > /var/run/my_process.pid
+	echo "manage_my_process restarted"
+	;;
+
+esac
