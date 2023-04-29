@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <sys/types.h>
 #include <unistd.h>
+int infinite_while(void);
 
 /**
  * main - Entry point
@@ -10,17 +11,15 @@
  */
 int main(void)
 {
-	int i;
-	pid_t zombie;
-	int infinite_while(void);
+	pid_t zombie, i;
 
 	for (i = 0; i < 5; i++)
 	{
 		zombie = fork();
-		if (zombie == 0)
-			return (0);
-		else
+		if (zombie > 1)
 			printf("Zombie process created, PID: %d\n", zombie);
+		else
+			return (0);
 	}
 	infinite_while();
 	return (0);
