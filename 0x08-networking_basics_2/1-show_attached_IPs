@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# Displays all active IPv4 IPs on the current machine.
+
+ip -4 address show | awk '/inet/ {print $2}' | cut -d/ -f1
