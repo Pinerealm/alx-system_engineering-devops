@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# Debug an Apache2 server not serving a webpage on port 8080
+# Check if Apache2 is running
+if ! pgrep -x "apache2" > /dev/null
+then
+    # Start Apache2 if it's not running
+    service apache2 start
+fi
+
+# Insert 'ServerName localhost' into the Apache config file using sed
+sed -i '1i ServerName localhost' /etc/apache2/apache2.conf
