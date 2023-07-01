@@ -22,15 +22,14 @@ if grep -q "error_page 404 /custom_404" $FILE; then
     echo "Context already in config file."
 else
     # Add the context to the default nginx config file
-    sudo sed -i --follow-symlinks "/pass PHP script/i\ $CONTEXT" $FILE
+    sudo sed -i --follow-symlinks "/PHP scripts to/i\ $CONTEXT" $FILE
 fi
 
 # Check if nginx is running
-if sudo service nginx status | grep -q "active (running)"; then
+if sudo service nginx status | grep -q "running"; then
     # Reload nginx
     sudo nginx -s reload
 else
     # Start nginx
     sudo service nginx start
-    sudo nginx -s reload
 fi
