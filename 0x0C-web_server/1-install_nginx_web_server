@@ -10,7 +10,7 @@ sudo chown -R "$USER":"$USER" /var/www/
 echo "Hello World!" > /var/www/html/index.html
 
 # Check if nginx is running
-if sudo service nginx status | grep -q "active (running)"; then
+if sudo service nginx status | grep -q "is running"; then
     # Reload nginx
     sudo nginx -s reload
 else
