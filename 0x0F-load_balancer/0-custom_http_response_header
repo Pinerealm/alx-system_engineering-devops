@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+# Configure an nginx server and add a custom header to its response with
+#+ the server hostname as value
+
+# Install nginx
+sudo apt-get update
+sudo apt-get install nginx -y
+
+# Change ownership of the necessary directories
+sudo chown -R "$USER":"$USER" /var/www/ /usr/share/nginx/html/
+
+# Add a custom home and 404 page
+echo "Hello World!" > /var/www/html/index.html
+echo "Ceci n'est pas une page" > /usr/share/nginx/html/custom_404.html
+
+# Store the directive to add in a variable
+CONTEXT="\tadd_header X-Served-By \$hostname always;"
+
+# Check if the context is already in the config file
+if grep -q "add_header X-Served-By" /etc/nginx/nginx.conf; then
+    echo "Context already in nginx config."
+else
+    # Add the context to the default nginx config file
+    sudo sed -i "/sendfile/i\ $CONTEXT" /etc/nginx/nginx.conf
+fi
+
+# Check if nginx is running
+if sudo service nginx status | grep -q "is running"; then
+    # Reload nginx
+    sudo nginx -s reload
+else
+    # Start nginx
+    sudo service nginx start
+fi
