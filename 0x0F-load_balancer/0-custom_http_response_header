@@ -31,4 +31,5 @@ if sudo service nginx status | grep -q "is running"; then
 else
     # Start nginx
     sudo service nginx start
+    sudo nginx -s reload
 fi
