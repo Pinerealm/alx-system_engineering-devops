@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# Debug an nginx installation that's not listening on port 80
+
+# Make sure the default server is listening on port 80
+sed -i '/default_server/ s/8080/80/' /etc/nginx/sites-enabled/default
+
+# Start nginx
+service nginx start
