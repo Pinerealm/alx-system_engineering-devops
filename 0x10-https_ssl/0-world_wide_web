@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+# Display information about subdomains using awk and at least a Bash function
+
+# Get number of arguments
+NUM_ARGS=$#
+
+# If no arguments are given, exit gracefully
+if [ $NUM_ARGS -eq 0 ]; then
+    exit 0
+fi
+
+see_subdomain_info() {
+    # If only one argument is given, assume it is a domain name
+    if [ $NUM_ARGS -eq 1 ]; then
+        # Store all subdomains as an array
+        SUBDOMAINS=("www" "lb-01" "web-01" "web-02")
+
+        # Loop through subdomains
+        for sub in "${SUBDOMAINS[@]}"; do
+            # Concatenate subdomain to domain
+            SUBDOMAIN="$sub.$1"
+            # Dig for subdomain and store the answer section
+            DOMAIN_INFO=$(dig "$SUBDOMAIN" | grep -A1 'ANSWER SECTION:')
+
+            # Get IP address
+            IP=$(awk 'NR==2 {print $5}' <<< "$DOMAIN_INFO")
+            # Get record type
+            RECORD_TYPE=$(awk 'NR==2 {print $4}' <<< "$DOMAIN_INFO")
+
+            # Print subdomain, IP address, and record type
+            echo "The subdomain $sub is a $RECORD_TYPE record and points to $IP"
+        done
+        exit 0
+
+    # If two arguments are given, assume the first is a subdomain 
+    #+ and the second is a domain
+    elif [ $NUM_ARGS -eq 2 ]; then
+        SUBDOMAIN="$2.$1"
+        DOMAIN_INFO=$(dig "$SUBDOMAIN" | grep -A1 'ANSWER SECTION:')
+
+        # Get IP address
+        IP=$(awk 'NR==2 {print $5}' <<< "$DOMAIN_INFO")
+        # Get record type
+        RECORD_TYPE=$(awk 'NR==2 {print $4}' <<< "$DOMAIN_INFO")
+
+        # Print subdomain, IP address, and record type
+        echo "The subdomain $2 is a $RECORD_TYPE record and points to $IP"
+        exit 0
+    fi
+}
+
+# Call function
+see_subdomain_info "$1" "$2"
