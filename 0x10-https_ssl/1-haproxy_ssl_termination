@@ -22,6 +22,7 @@ defaults
 	mode	http
 	option	httplog
 	option	dontlognull
+	no option http-use-htx
         timeout connect 5000
         timeout client  50000
         timeout server  50000
@@ -35,7 +36,7 @@ defaults
 
 frontend nginx_frontend
     bind *:80
-    bind *:443 ssl crt /etc/haproxy/certs/web-osalami.tech.pem
+    bind *:443 ssl crt /etc/haproxy/certs/www.web-osalami.tech.pem
     default_backend nginx_backend
 
 backend nginx_backend
