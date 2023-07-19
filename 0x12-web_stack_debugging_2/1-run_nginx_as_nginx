@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# Run nginx as the nginx user
+
+# Change the port nginx listens on to 8080
+FILE=/etc/nginx/sites-enabled/default
+sed -i --follow-symlinks '/default_server/s/80/8080/' $FILE
+
+# Change permissions on the nginx.conf file to the nginx user
+chmod 644 /etc/nginx/nginx.conf
+
+# Kill any Apache processes that are running on port 8080
+if pgrep apache2 > /dev/null; then
+    pkill apache2
+fi
+
+# Start nginx as the nginx user
+sudo -u nginx nginx
