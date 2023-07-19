@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# Run nginx as the nginx user
+pkill apache2
+FILE=/etc/nginx/sites-enabled/default
+sed -i --follow-symlinks '/default_server/s/80/8080/' $FILE
+chmod 644 /etc/nginx/nginx.conf
+sudo -u nginx nginx
