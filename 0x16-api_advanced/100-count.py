@@ -6,6 +6,15 @@ import requests
 def count_words(subreddit, word_list, after="", word_dict={}):
     """Parses the title of all hot articles, and prints a sorted count of
     given keywords
+
+    Args:
+        subreddit (str): The subreddit to search
+        word_list (list): The list of words to search for
+        after (str): The last post ID
+        word_dict (dict): Stores the count of each word
+
+    Returns:
+        The count of each word, sorted by count and alphabetically
     """
     url = "https://www.reddit.com/r/{}/hot.json".format(subreddit)
     params = {"limit": 100, "after": after}
